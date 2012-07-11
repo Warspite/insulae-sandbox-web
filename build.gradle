@@ -1,0 +1,18 @@
+apply plugin: 'war'
+apply plugin: 'maven'
+
+group = "com.warspite.insulae"
+ext.nextRelease = '0.1.0';
+
+if (project.hasProperty("release")) {
+	version = ext.nextRelease
+} 
+else {
+	version = ext.nextRelease + '-SNAPSHOT'
+}
+
+jar.enabled = false
+
+artifacts {
+	archives war
+}
