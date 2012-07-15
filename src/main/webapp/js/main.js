@@ -1,4 +1,4 @@
-require(["dojo/dom", "insulae/accountModule"], 
+require(["dojo/dom", "insulae/account"], 
 	function(dom, accountModule){
 	}
 );

@@ -27,7 +27,7 @@
 		email: <input type="text" id="login-email"/><br />
 		password: <input type="password" id="login-password"/><br />
 		<button id="createAccount-button" onClick="
-			require(['dojo/dom', 'insulae/accountModule'], function(dom, am) { 
+			require(['dojo/dom', 'insulae/account'], function(dom, am) { 
 				am.login(dom.byId('login-email').value, dom.byId('login-password').value);
 			});">
 			Login
@@ -40,7 +40,7 @@
 		givenName: <input type="text" id="createAccount-givenName"/><br />
 		surname: <input type="text" id="createAccount-surname"/><br />
 		<button id="createAccount-button" onClick="
-			require(['dojo/dom', 'insulae/accountModule'], function(dom, am) { 
+			require(['dojo/dom', 'insulae/account'], function(dom, am) { 
 				am.createAccount(dom.byId('createAccount-email').value, dom.byId('createAccount-password').value, dom.byId('createAccount-callSign').value, dom.byId('createAccount-givenName').value, dom.byId('createAccount-surname').value);
 			});">
 			Create new account
