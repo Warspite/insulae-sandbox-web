@@ -1,6 +1,6 @@
-define(["dojo/dom", "insulae/server"], function(dom, srv){
+define(["dojo/dom", "insulae/server", "insulae/sessionKeeper"], function(dom, srv, sessionKeeper) {
     var ouputField = dom.byId('outputField');
-    var passwordOfCreatedAccount = "";
+    var passwordOfCreatedAccount = null;
     
     function createAccountFailed(result) {
     	outputField.innerHTML = 'Account creation failed!<br />' + result.message;
@@ -17,6 +17,7 @@ define(["dojo/dom", "insulae/server"], function(dom, srv){
     
     function loginSucceeded(result) {
     	outputField.innerHTML = 'Login succeeded! ' + JSON.stringify(result);
+    	sessionKeeper.setSession({"id": result.content.id, "key": result.content.key});
     }
     
     function innerLogin(email, password) {
@@ -24,8 +25,17 @@ define(["dojo/dom", "insulae/server"], function(dom, srv){
        	srv.put("account/Session", { "email": email, "password": password }, loginFailed, loginSucceeded);
     }
     
+    function logoutFailed(result) {
+    	outputField.innerHTML = 'Logout failed!<br />' + result.message;
+    }
+    
+    function logoutSucceeded(result) {
+    	outputField.innerHTML = 'Logout succeeded! ' + JSON.stringify(result);
+    	sessionKeeper.setSession(null);
+    }
+    
     return {
-        createAccount: function(email, password, callSign, givenName, surname){
+        createAccount: function(email, password, callSign, givenName, surname) {
         	passwordOfCreatedAccount = password;
         	var params = { "email": email, "password": password, "callSign": callSign, "givenName": givenName, "surname": surname };
         	srv.put("account/Account", params, createAccountFailed, createAccountSucceeded);
@@ -33,6 +43,10 @@ define(["dojo/dom", "insulae/server"], function(dom, srv){
 
         login: function(email, password){
         	innerLogin(email, password);
+        },
+        
+        logout: function(){
+        	srv.delete("account/Session", {}, logoutFailed, logoutSucceeded);
         }
     };
 });

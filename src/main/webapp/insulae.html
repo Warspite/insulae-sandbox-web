@@ -26,12 +26,19 @@
 	<div id="login">
 		email: <input type="text" id="login-email"/><br />
 		password: <input type="password" id="login-password"/><br />
-		<button id="createAccount-button" onClick="
+		<button id="login-button" onClick="
 			require(['dojo/dom', 'insulae/account'], function(dom, am) { 
 				am.login(dom.byId('login-email').value, dom.byId('login-password').value);
 			});">
-			Login
-		</button><br />
+			Log in
+		</button>
+		<button id="logout-button" disabled="true" onClick="
+			require(['insulae/account'], function(am) { 
+				am.logout();
+			});">
+			Log out
+		</button>
+		<br />
 	</div>
 	<div id="createAccount">
 		email: <input type="text" id="createAccount-email"/><br />
@@ -48,6 +55,9 @@
 	</div>
 	<div id="outputField">
 		Output.
+	</div>
+	<div style="bgcolor: lightblue;">
+		Session status: <span id="sessionStatus">Not logged in</span>
 	</div>
 </body>
 </html>

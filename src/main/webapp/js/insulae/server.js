@@ -1,9 +1,13 @@
-define(["dojo/_base/xhr"], function(xhr){
+define(["dojo/_base/xhr", "insulae/sessionKeeper"], function(xhr, sessionKeeper){
     function buildRequest(servlet, params, failureCallback, successCallback) {
+		console.log("Stringified session: " +JSON.stringify(sessionKeeper.getSession()));
 		return {
 			url: "api/" + servlet,
 			handleAs: "json",
-			headers: { "params": JSON.stringify(params) },
+			headers: { 
+				"params": JSON.stringify(params),
+				"auth": JSON.stringify(sessionKeeper.getSession()) 
+			},
 			error: handleRequestFault,
 			load: function(result) {
 				if( result.success )
@@ -19,8 +23,20 @@ define(["dojo/_base/xhr"], function(xhr){
     }
     
     return {
+        get: function(servlet, params, failureCallback, successCallback){
+        	xhr.get(buildRequest(servlet, params, failureCallback, successCallback));
+        },
+
+        post: function(servlet, params, failureCallback, successCallback){
+        	xhr.post(buildRequest(servlet, params, failureCallback, successCallback));
+        },
+
         put: function(servlet, params, failureCallback, successCallback){
         	xhr.put(buildRequest(servlet, params, failureCallback, successCallback));
+        },
+
+        delete: function(servlet, params, failureCallback, successCallback){
+        	xhr.del(buildRequest(servlet, params, failureCallback, successCallback));
         }
 	};
 });
