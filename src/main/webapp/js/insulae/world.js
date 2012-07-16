@@ -3,6 +3,7 @@ define(["dojo/dom", "insulae/server", "insulae/sessionKeeper"], function(dom, sr
 	var avatarManagementContainer = null;
 	var realms = {};
 	var avatars = {};
+	var races = null;
 	sessionKeeper.addSessionChangeListener(refreshAvatarListing);
 	
 	srv.get("world/Realm", {}, getRealmsFailed, getRealmsSucceeded);
@@ -19,19 +20,35 @@ define(["dojo/dom", "insulae/server", "insulae/sessionKeeper"], function(dom, sr
 	}
 	
     function getAvatarsFailed(result) {
-    	output("Failed to retrieve avatars: " + result.messsage);
+    	output("Failed to retrieve avatars: " + result.message);
     }
     
     function getAvatarsSucceeded(result) {
-    	avatars = result.content.avatars
+    	avatars = result.content.avatars;
+		refreshAvatarCreationForm();
+    }
+    
+    function getRacesFailed(result) {
+    	output("Failed to retrieve races: " + result.message);
+    }
+    
+    function getRacesSucceeded(result) {
+    	races = result.content.races;
+		refreshAvatarCreationForm();
+    }
+    
+    function refreshAvatarCreationForm() {
 		var avatarPrintout = "";
 		for(i in avatars) {
 			avatarPrintout += avatars[i].name + " (" + realms[avatars[i].realmId].name + ")<br />";
 		}
 		
 		var avatarCreationForm = "email: <input type='text' id='createAvatar-name'/><br />" +
-			"realm: <select id='createAvatar-realm'/>";
+			"realm: <select id='createAvatar-realm' onChange=\"require(['dojo/dom', 'insulae/world'], function(dom, world) {" + 
+				"world.getRaces(dom.byId('createAvatar-realm').value);" +
+			"});\">";
 			
+		var firstListedRealm = null;
 		for(i in realms) {
 			var avatarAlreadyExistsInRealm = false;
 			for(j in avatars) {
@@ -41,12 +58,27 @@ define(["dojo/dom", "insulae/server", "insulae/sessionKeeper"], function(dom, sr
 			}
 			
 			if(!avatarAlreadyExistsInRealm) {
+				firstListedRealm = realms[i];
 				avatarCreationForm += "<option value=" + i + ">" + realms[i].name + "</option>";
 			}
 		}
-			
-		avatarCreationForm += "</select><br />" +
-			"<button onClick=\"require(['dojo/dom', 'insulae/world'], function(dom, world) {" + 
+		
+		avatarCreationForm += "</select><br />";
+		
+		avatarCreationForm += "race: <select id='createAvatar-race'>";
+		
+		if(races != null) {
+			for(i in races) {
+				avatarCreationForm += "<option value=" + races[i].id + ">" + races[i].name + "</option>";
+			}
+		}
+		else {
+			innerGetRaces(firstListedRealm.id);
+		}
+		 
+		avatarCreationForm += "</select><br />";
+		
+		avatarCreationForm += "<button onClick=\"require(['dojo/dom', 'insulae/world'], function(dom, world) {" + 
 				"world.createAvatar(dom.byId('createAvatar-name').value, dom.byId('createAvatar-realm').value, dom.byId('createAvatar-race').value, dom.byId('createAvatar-sex').value);" +
 			"});\">" +
 			"Create new avatar" +
@@ -75,6 +107,10 @@ define(["dojo/dom", "insulae/server", "insulae/sessionKeeper"], function(dom, sr
     	avatarManagementContainer.innerHTML = html;
     }
     
+    function innerGetRaces(realmId) {
+		srv.get("world/Race", {"realmId": realmId}, getRacesFailed, getRacesSucceeded);    
+    }
+    
     return {
         setAvatarManagementContainer: function(container) {
         	avatarManagementContainer = container;
@@ -82,6 +118,11 @@ define(["dojo/dom", "insulae/server", "insulae/sessionKeeper"], function(dom, sr
 
         createAvatar: function(name, realmId, raceId, sexId) {
         	console.log("Create avatar " + name + " " + realmId + " " + raceId + " " + sexId); 
+        },
+        
+		getRaces: function(realmId) {
+        	 innerGetRaces(realmId);
         }
+        
     };
 });
