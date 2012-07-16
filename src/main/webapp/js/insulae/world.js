@@ -45,7 +45,7 @@ define(["dojo/dom", "insulae/server", "insulae/sessionKeeper"], function(dom, sr
 		
 		var avatarCreationForm = "email: <input type='text' id='createAvatar-name'/><br />" +
 			"realm: <select id='createAvatar-realm' onChange=\"require(['dojo/dom', 'insulae/world'], function(dom, world) {" + 
-				"world.getRaces(dom.byId('createAvatar-realm').value);" +
+				"world.getRaces(parseInt(dom.byId('createAvatar-realm').value));" +
 			"});\">";
 			
 		var firstListedRealm = null;
@@ -58,7 +58,9 @@ define(["dojo/dom", "insulae/server", "insulae/sessionKeeper"], function(dom, sr
 			}
 			
 			if(!avatarAlreadyExistsInRealm) {
-				firstListedRealm = realms[i];
+				if(firstListedRealm == null)
+					firstListedRealm = realms[i];
+					
 				avatarCreationForm += "<option value=" + i + ">" + realms[i].name + "</option>";
 			}
 		}
