@@ -1,5 +1,5 @@
-require(["dojo/dom", "insulae/sessionKeeper"], 
-	function(dom, sessionKeeper) {
+require(["dojo/dom", "insulae/sessionKeeper", "insulae/world", "dojo/domReady!"], 
+	function(dom, sessionKeeper, world) {
 		sessionKeeper.addSessionChangeListener(function(newSession) {
 			if(newSession == null) {
 				dom.byId("sessionStatus").innerHTML = "Not logged in";
@@ -12,5 +12,7 @@ require(["dojo/dom", "insulae/sessionKeeper"],
 			dom.byId("createAccount-button").disabled = (newSession != null);
 			dom.byId("logout-button").disabled = (newSession == null);
 		});
+		
+		world.setAvatarManagementContainer(dom.byId("avatarManagement"));
 	}
 );

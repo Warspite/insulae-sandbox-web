@@ -1,6 +1,6 @@
 define(["dojo/_base/xhr", "insulae/sessionKeeper"], function(xhr, sessionKeeper){
     function buildRequest(servlet, params, failureCallback, successCallback) {
-		console.log("Stringified session: " +JSON.stringify(sessionKeeper.getSession()));
+		console.log("Making call to " + servlet + " with session: " +JSON.stringify(sessionKeeper.getSession()) + " and parameters " + JSON.stringify(params));
 		return {
 			url: "api/" + servlet,
 			handleAs: "json",
