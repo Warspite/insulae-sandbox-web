@@ -22,7 +22,7 @@ define(["dojo/dom", "insulae/server", "insulae/sessionKeeper"], function(dom, sr
     
     function innerLogin(email, password) {
     	console.log("Logging in with " + email + "/" + password);
-       	srv.put("account/Session", { "email": email, "password": password }, loginFailed, loginSucceeded);
+       	srv.put("account/Session", { "email": email, "password": password }, loginSucceeded, loginFailed);
     }
     
     function logoutFailed(result) {
@@ -38,7 +38,7 @@ define(["dojo/dom", "insulae/server", "insulae/sessionKeeper"], function(dom, sr
         createAccount: function(email, password, callSign, givenName, surname) {
         	passwordOfCreatedAccount = password;
         	var params = { "email": email, "password": password, "callSign": callSign, "givenName": givenName, "surname": surname };
-        	srv.put("account/Account", params, createAccountFailed, createAccountSucceeded);
+        	srv.put("account/Account", params, createAccountSucceeded, createAccountFailed);
         },
 
         login: function(email, password){
@@ -46,7 +46,7 @@ define(["dojo/dom", "insulae/server", "insulae/sessionKeeper"], function(dom, sr
         },
         
         logout: function(){
-        	srv.delete("account/Session", {}, logoutFailed, logoutSucceeded);
+        	srv.delete("account/Session", {}, logoutSucceeded, logoutFailed);
         }
     };
 });

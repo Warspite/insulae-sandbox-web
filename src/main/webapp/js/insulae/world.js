@@ -6,7 +6,7 @@ define(["dojo/dom", "insulae/server", "insulae/sessionKeeper"], function(dom, sr
 	var races = null;
 	sessionKeeper.addSessionChangeListener(refreshAvatarListing);
 	
-	srv.get("world/Realm", {}, getRealmsFailed, getRealmsSucceeded);
+	srv.get("world/Realm", {}, getRealmsSucceeded, getRealmsFailed);
 	
 	function getRealmsFailed(result) {
 		alert("Failed to retrieve realm list from server: " + result.message);
@@ -97,7 +97,7 @@ define(["dojo/dom", "insulae/server", "insulae/sessionKeeper"], function(dom, sr
     	}
     	
     	output("Let's list some characters for account " + session.id + "...");
-    	srv.get("world/Avatar", {"accountId": session.id}, getAvatarsFailed, getAvatarsSucceeded);
+    	srv.get("world/Avatar", {"accountId": session.id}, getAvatarsSucceeded, getAvatarsFailed);
     }
     
     function output(html) {
@@ -110,7 +110,7 @@ define(["dojo/dom", "insulae/server", "insulae/sessionKeeper"], function(dom, sr
     }
     
     function innerGetRaces(realmId) {
-		srv.get("world/Race", {"realmId": realmId}, getRacesFailed, getRacesSucceeded);    
+		srv.get("world/Race", {"realmId": realmId}, getRacesSucceeded, getRacesFailed);    
     }
     
     return {

@@ -5,21 +5,44 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<link href="css/insulae-geography.css" rel="stylesheet" type="text/css" />
 		<link href="css/featuredcontentglider.css" rel="stylesheet" type="text/css" />
+		<script type="text/javascript">
+			var dojoConfig = {
+    			baseUrl: "/js/",
+    			tlmSiblingOfDojo: false,
+	    		parseOnLoad: true,
+    			packages: [
+					{ name: "dojo", location: "lib/dojo" },
+					{ name: "geo", location: "geo" }
+	    		]
+			};
+		</script>
+	<script data-dojo-config="async: true" src="js/lib/dojo/dojo.js"></script>
+	<script type="text/javascript" src="js/geo-main.js"></script>
 	</head>
 	
 	<body>
 		<div id="wrapper">
-	
 			<!-- HEADER START HERE -->
 			<div id="header_inner">
 				<div id="menu">
-					<a href="index.htm" id="logo" title="Insulae Geography Sandbox">Insulae Geography Sandbox</a>
-					<ul>
-						<li class="active"><a><span>Visit area 1</span>Area 1</a></li>
-						<li><a><span>Visit area 2</span>Area 2</a></li>
-						<li><a><span>Visit area 3</span>Area 3</a></li>
+					<a id="logo" title="Insulae Geography Sandbox">Insulae Geography Sandbox</a>
+					<ul id="areaChoiceList">
 					</ul>
-					<a id="login" title="Log in"><span>Sign in to your account</span>Sign in!</a>
+					<a id="accountLink" onClick="require(['dojo/dom', 'geo/accountControl'], function(dom, ac) { ac.show(); });">
+						<span>Sign in to your account</span>
+						Sign in!
+					</a>
+					<div id="accountWindow" class="displayNone">
+						<div id="loginView" class="displayBlock">
+							Log in:<br />
+							<input type="text" id="loginEmail"><br />
+							<input type="password" id="loginPassword">
+							<img src="images/submit.png" id="loginSubmitter" title="Log in" class="imgButton" onClick="require(['dojo/dom', 'geo/accountControl'], function(dom, ac) { ac.login(dom.byId('loginEmail').value, dom.byId('loginPassword').value); });" />							
+						</div>
+						<div id="avatarsView" class="displayNone">
+						</div>
+						<img src="images/close.png" id="accountCloser" title="Close" class="imgButton" onClick="require(['dojo/dom', 'geo/accountControl'], function(dom, ac) { ac.hide(); });" />
+					</div>
 				</div>
 				<div class="lsize">
 					<div id="inner_caption">
