@@ -15,7 +15,7 @@ input { margin:0; padding:0; font: 1.4em/1.9em arial, sans-serif, tahoma, "Trebu
 
 /************************ Classes for differentiation of uniq ID ************************/
 #wrapper { min-height:100%; height:auto !important; height:100%; margin:0 auto -390px; }
-.lsize, #content_area { width:940px; margin:0 auto; }
+.contentContainer { width:940px; margin:0 auto; }
 
 #header_inner { background: url(../images/innerHeaderBackground.png) no-repeat 50% 0; height:387px; overflow:hidden; }
 #menu { background: url(../images/selectionBarBackground.png) no-repeat 0 0; width:940px; height:37px; line-height:34px; margin:30px auto 0 auto; position:relative; }
@@ -55,6 +55,5 @@ input { margin:0; padding:0; font: 1.4em/1.9em arial, sans-serif, tahoma, "Trebu
 
 #accountCloser { position: absolute; top: 2px; right: 2px}
 
-#inner_caption { width:485px; margin-top:70px; }
-#inner_caption h1 { font-size:1.7em; line-height:1.4em; color:#699; }
+#viewportCanvas { -webkit-user-select: none; }
 

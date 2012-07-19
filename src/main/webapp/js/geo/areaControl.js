@@ -5,7 +5,6 @@ define(["dojo/dom", "dojo/dom-class", "insulae/server", "geo/accountControl"], f
     
     var areas = {}; 
     
-    console.log("Initializing areaControl!");
     accountControl.addAvatarSelectionListener(function(avatar) {
     	if( avatar == null ) {
     		areas = {};

@@ -1,2 +1,2 @@
-require(["dojo/dom", "geo/areaControl", "dojo/domReady!"], function(dom, areaControl) {
+require(["dojo/dom", "geo/viewportCanvasControl", "dojo/domReady!"], function(dom, areaControl) {
 });

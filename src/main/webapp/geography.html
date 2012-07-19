@@ -35,8 +35,8 @@
 					<div id="accountWindow" class="displayNone">
 						<div id="loginView" class="displayBlock">
 							Log in:<br />
-							<input type="text" id="loginEmail"><br />
-							<input type="password" id="loginPassword">
+							<input type="text" id="loginEmail" /><br />
+							<input type="password" id="loginPassword" onKeyPress="require(['dojo/dom', 'geo/accountControl'], function(dom, ac) { var key = event.keyCode || event.which; if( key == 13 ) { ac.login(dom.byId('loginEmail').value, dom.byId('loginPassword').value); } });" />
 							<img src="images/submit.png" id="loginSubmitter" title="Log in" class="imgButton" onClick="require(['dojo/dom', 'geo/accountControl'], function(dom, ac) { ac.login(dom.byId('loginEmail').value, dom.byId('loginPassword').value); });" />							
 						</div>
 						<div id="avatarsView" class="displayNone">
@@ -44,12 +44,8 @@
 						<img src="images/close.png" id="accountCloser" title="Close" class="imgButton" onClick="require(['dojo/dom', 'geo/accountControl'], function(dom, ac) { ac.hide(); });" />
 					</div>
 				</div>
-				<div class="lsize">
-					<div id="inner_caption">
-						<h1>
-							Here you can look at some cool geography features!
-						</h1>
-					</div>
+				<div class="contentContainer">
+					<canvas id="viewportCanvas" width="500px" height="300px;"></canvas>
 				</div>
 			</div>
 			<!-- HEADER END HERE -->
