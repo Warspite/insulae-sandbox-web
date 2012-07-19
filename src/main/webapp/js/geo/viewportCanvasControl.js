@@ -1,11 +1,15 @@
 define(["dojo/dom", "dojo/dom-class", "insulae/server", "geo/areaControl"], function(dom, domClass, srv, areaControl) {
     var canvas = dom.byId("viewportCanvas");
     var ctx = canvas.getContext("2d");
-    var locationGraphics = new ObjectContainer(0);
     var renderer = new Renderer(canvas, ctx, 40, "#ff0000");
-    var locationTypes = {};
+	var mouse = new Mouse(canvas);
+	var keyboard = new Keyboard(); 
+	var cameraController = new CameraController(keyboard, mouse, renderer);
     
+    var locationGraphics = new ObjectContainer(0);
     renderer.addChild(locationGraphics);
+	
+    var locationTypes = {};
     
     areaControl.addAreaSelectionListener(function(area) { 
 		locationGraphics.clearChildren();
@@ -19,6 +23,12 @@ define(["dojo/dom", "dojo/dom-class", "insulae/server", "geo/areaControl"], func
     	locationTypes = srv.mapify(result.content.locationTypes);
     });
     
+    var ticker = new Ticker(25);
+    ticker.addListener(renderer);
+    ticker.addListener(cameraController);
+    ticker.addListener(keyboard);
+    ticker.addListener(mouse);
+    
     function locationsLoaded(result) {
     	for(i in result.content.locations) {
     		locationGraphics.addChild(new LocationObject(result.content.locations[i], locationTypes));
@@ -28,3 +38,4 @@ define(["dojo/dom", "dojo/dom-class", "insulae/server", "geo/areaControl"], func
     return {
     };
 });
+

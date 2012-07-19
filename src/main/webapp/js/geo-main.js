@@ -9,8 +9,17 @@ function include(file) {
 }
 	
 include("lib/UtilityFunctions.js");
+include("lib/Ticker.js");
+
 include("lib/dataUtils/SortedList.js");
+
+include("lib/inputUtils/Key.js");
+include("lib/inputUtils/Keyboard.js");
+include("lib/inputUtils/Mouse.js");
+
 include("lib/graphics/ObjectRenderingParameters.js");
+include("lib/graphics/GraphicsType.js");
+include("lib/graphics/CameraController.js");
 include("lib/graphics/Renderer.js");
 include("lib/graphics/RenderedObject.js");
 include("lib/graphics/renderedObjects/ObjectContainer.js");
