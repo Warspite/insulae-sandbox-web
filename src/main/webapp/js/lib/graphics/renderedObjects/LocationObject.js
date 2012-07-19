@@ -1,6 +1,6 @@
-var LocationObject = function(location)
+var LocationObject = function(location, locationTypes)
 {
-	this.renderSize = 32;
+	this.renderSize = 64;
 	this.data = location;
 	mixin(new RenderedObject(new ObjectRenderingParameters(
 			location.coordinatesX * this.renderSize,
@@ -9,8 +9,8 @@ var LocationObject = function(location)
 			this.renderSize, 
 			this.renderSize, 
 			1.0, 
-			"rect", 
-			"#00ff00", 
+			GraphicsType.IMAGE, 
+			"images/locations/" + locationTypes[location.locationTypeId].canonicalName + ".png", 
 			0)),
 			this);
 };

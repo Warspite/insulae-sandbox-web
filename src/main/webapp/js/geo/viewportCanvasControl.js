@@ -3,6 +3,7 @@ define(["dojo/dom", "dojo/dom-class", "insulae/server", "geo/areaControl"], func
     var ctx = canvas.getContext("2d");
     var locationGraphics = new ObjectContainer(0);
     var renderer = new Renderer(canvas, ctx, 40, "#ff0000");
+    var locationTypes = {};
     
     renderer.addChild(locationGraphics);
     
@@ -14,9 +15,13 @@ define(["dojo/dom", "dojo/dom-class", "insulae/server", "geo/areaControl"], func
     	}
     });
     
+    srv.get("geography/LocationType", {}, function(result) {
+    	locationTypes = srv.mapify(result.content.locationTypes);
+    });
+    
     function locationsLoaded(result) {
     	for(i in result.content.locations) {
-    		locationGraphics.addChild(new LocationObject(result.content.locations[i]));
+    		locationGraphics.addChild(new LocationObject(result.content.locations[i], locationTypes));
     	}
     }
     

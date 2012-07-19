@@ -36,18 +36,21 @@ RenderedObject.prototype.render = function(ctx)
 
 RenderedObject.prototype.draw = function(ctx)
 {
-	if( this.orp.graphicsType == "none" )
+	if( this.orp.graphicsType == GraphicsType.INVIS )
 		return;
 	
 	ctx.globalAlpha = this.orp.alpha;
-	ctx.fillStyle = this.orp.fillStyle;
 	
-	if( this.orp.graphicsType == "image" )
-		ctx.drawImage(this.image, -this.orp.offsetX, -this.orp.offsetY, this.orp.width, this.orp.height);
-	else if( this.orp.graphicsType == "animation" )
-		ctx.drawImage(this.image, 0, this.animationTracker.frameTop, this.image.width, this.orp.frameHeight, -this.orp.offsetX, -this.orp.offsetY, this.orp.width, this.orp.height);
-	else if( this.orp.graphicsType == "rect" )
+	if( this.orp.graphicsType == GraphicsType.IMAGE ) {
+		ctx.drawImage(this.orp.content, -0.5 * this.orp.width, -0.5 * this.orp.height, this.orp.width, this.orp.height);
+	}
+	else if( this.orp.graphicsType == GraphicsType.ANIM ) {
+		ctx.drawImage(this.orp.content, 0, this.animationTracker.frameTop, this.image.width, this.orp.frameHeight, -this.orp.offsetX, -this.orp.offsetY, this.orp.width, this.orp.height);
+	}
+	else if( this.orp.graphicsType == GraphicsType.RECT ) {
+		ctx.content = this.orp.content;
 		ctx.fillRect(-0.5 * this.orp.width, -0.5 * this.orp.height, this.orp.width, this.orp.height);
+	}
 };
 
 RenderedObject.prototype.addChild = function(child)
@@ -67,6 +70,7 @@ RenderedObject.prototype.clearChildren = function()
 	var c = this.children.firstElement;
 	while( c != null ) {
 		c.parent = null;
+		c = c.nextElement;
 	}
 	
 	this.children = new SortedList("zIndex");
