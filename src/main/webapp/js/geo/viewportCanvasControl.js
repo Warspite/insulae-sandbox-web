@@ -1,37 +1,25 @@
 define(["dojo/dom", "dojo/dom-class", "insulae/server", "geo/areaControl"], function(dom, domClass, srv, areaControl) {
     var canvas = dom.byId("viewportCanvas");
-    var locations = {};
+    var ctx = canvas.getContext("2d");
+    var locationGraphics = new ObjectContainer(0);
+    var renderer = new Renderer(canvas, ctx, 40, "#ff0000");
+    
+    renderer.addChild(locationGraphics);
     
     areaControl.addAreaSelectionListener(function(area) { 
-    	if( area == null ) {
-    		locations = {};
-    		renderLocations();
-    	}
-    	else {
+		locationGraphics.clearChildren();
+    	
+		if( area != null ) {
     		srv.get("geography/Location", { "areaId": area.id }, locationsLoaded);
     	}
     });
     
     function locationsLoaded(result) {
-    	locations = srv.mapify(result.content.locations);
-    	renderLocations();
+    	for(i in result.content.locations) {
+    		locationGraphics.addChild(new LocationObject(result.content.locations[i]));
+    	}
     }
     
-	function renderLocations(){
-		var ctx = canvas.getContext("2d");
-		ctx.setTransform(1.0, 0.0, 0.0, 1.0, 1.0, 1.0);
-		ctx.fillStyle = "#000000";
-		ctx.fillRect(0, 0, canvas.width, canvas.height);
-		ctx.fillStyle = "#ffffff";
-		console.log("Canvas size: " + canvas.width + "x" + canvas.height);
-		for(i in locations) {
-			ctx.save();
-			ctx.translate(locations[i].coordinatesX * 16, locations[i].coordinatesY * 16);
-			ctx.fillRect(-7, -7, 14, 14);
-			ctx.restore();
-		}
-	}
-
     return {
     };
 });
