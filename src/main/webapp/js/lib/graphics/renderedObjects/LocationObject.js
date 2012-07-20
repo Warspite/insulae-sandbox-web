@@ -1,9 +1,11 @@
-var LocationObject = function(location, locationTypes)
+var LocationObject = function(location, locationTypes, tooltipContainer)
 {
 	this.renderSize = 64;
 	this.data = location;
+	this.locationTypes = locationTypes;
+	
 	mixin(
-		new RenderedObject(
+		new TooltippingObject(
 			new ObjectRenderingParameters(
 				location.coordinatesX * this.renderSize,
 				location.coordinatesY * this.renderSize,
@@ -15,9 +17,9 @@ var LocationObject = function(location, locationTypes)
 				"images/locations/" + locationTypes[location.locationTypeId].canonicalName + ".png", 
 				0
 			),
-			new ObjectInteractionParameters(
-				true
-			)
+			tooltipContainer
 		),
 		this);
+	
+	this.tooltipObject.setText("You're pointing at a " + this.locationTypes[this.data.locationTypeId].name + " tile. " + this.locationTypes[this.data.locationTypeId].description);
 };

@@ -131,13 +131,16 @@ Mouse.prototype.tick = function(elapsedTime)
 	this.updatePointedAtObject();
 };
 
-Mouse.prototype.updatePointedAtObject() {
+Mouse.prototype.updatePointedAtObject = function() {
 	this.lastPointedAtObject = this.pointedAtObject;
 	this.pointedAtObject = this.renderer.findTopmostObjectAtCoordinates(this.current);
 	
-	if( this.pointedAtObject != null && this.pointedAtObject != this.lastPointedAtObject ) {
-		this.lastPointedAtObject.pointedAtSince = null;
-		this.pointedAtObject.pointedAtSince = new Date().getTime();
+	if(this.pointedAtObject != this.lastPointedAtObject) {
+		if(this.lastPointedAtObject != null && this.lastPointedAtObject.mouseExit != null)
+			this.lastPointedAtObject.mouseExit(this.current);
+
+		if(this.pointedAtObject != null && this.pointedAtObject.mouseEnter != null)
+			this.pointedAtObject.mouseEnter(this.current);
 	}
 };
 

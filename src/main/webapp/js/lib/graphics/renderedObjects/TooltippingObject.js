@@ -1,23 +1,19 @@
-var TooltippingObject = function(location, locationTypes)
+var TooltippingObject = function(orp, tooltipContainer)
 {
-	this.renderSize = 64;
-	this.data = location;
-	mixin(
-		new RenderedObject(
-			new ObjectRenderingParameters(
-				location.coordinatesX * this.renderSize,
-				location.coordinatesY * this.renderSize,
-				0.0,
-				this.renderSize, 
-				this.renderSize, 
-				1.0, 
-				GraphicsType.IMAGE, 
-				"images/locations/" + locationTypes[location.locationTypeId].canonicalName + ".png", 
-				0
-			),
-			new ObjectInteractionParameters(
-				true
-			)
-		),
-		this);
+	mixin(new RenderedObject(orp, new ObjectInteractionParameters(true)), this);
+	
+	this.tooltipDelay = 800;
+	
+	if(this.preRenderEffects == null)
+		this.preRenderEffects = new Array(0);
+
+	this.tooltipObject = new TooltipObject("Undefined", tooltipContainer);
+};
+
+TooltippingObject.prototype.mouseEnter = function(mouseCoords) {
+	this.tooltipObject.showIn(this.tooltipDelay, mouseCoords);
+};
+
+TooltippingObject.prototype.mouseExit = function(mouseCoords) {
+	this.tooltipObject.hide();
 };

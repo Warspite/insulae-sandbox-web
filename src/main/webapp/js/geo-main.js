@@ -25,8 +25,10 @@ include("lib/graphics/Renderer.js");
 include("lib/graphics/Transform.js");
 include("lib/graphics/RenderedObject.js");
 include("lib/graphics/renderedObjects/ObjectContainer.js");
+include("lib/graphics/renderedObjects/OverlayContainer.js");
 include("lib/graphics/renderedObjects/LocationObject.js");
 include("lib/graphics/renderedObjects/TooltippingObject.js");
+include("lib/graphics/renderedObjects/TooltipObject.js");
 
 
 require(["dojo/dom", "geo/viewportCanvasControl", "dojo/domReady!"], function(dom, areaControl) {

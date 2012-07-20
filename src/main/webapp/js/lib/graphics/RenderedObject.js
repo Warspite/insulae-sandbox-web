@@ -19,12 +19,15 @@ RenderedObject.prototype.zIndex = function() {
 
 RenderedObject.prototype.render = function(ctx, transform)
 {
+	this.extraEffects(this.preTransformEffects, transform);
+	
 	transform.translate(this.orp.x, this.orp.y);
 	transform.rotate(this.orp.angle);
 	ctx.setTransform(transform.m[0], transform.m[1], transform.m[2], transform.m[3], transform.m[4], transform.m[5]);
 
+	this.extraEffects(this.preRenderEffects, transform);
+	
 	var selfDrawn = false;
-
 	var c = this.children.firstElement;
 	while( c != null ) {
 		if( c.zIndex >= 0 && !selfDrawn ) {
@@ -40,6 +43,8 @@ RenderedObject.prototype.render = function(ctx, transform)
 		this.drawSelf(ctx);
 	
 	this.lastUsedTransform = transform;
+
+	this.extraEffects(this.postRenderEffects, transform);
 };
 
 RenderedObject.prototype.drawSelf = function(ctx)
@@ -57,7 +62,7 @@ RenderedObject.prototype.drawSelf = function(ctx)
 		ctx.drawImage(this.orp.content, 0, this.animationTracker.frameTop, this.image.width, this.orp.frameHeight, -this.orp.offsetX, -this.orp.offsetY, this.orp.width, this.orp.height);
 	}
 	else if( this.orp.graphicsType == GraphicsType.RECT ) {
-		ctx.content = this.orp.content;
+		ctx.fillStyle = this.orp.content;
 		ctx.fillRect(boundaries.left, boundaries.top, this.orp.width, this.orp.height);
 	}
 };
@@ -121,4 +126,12 @@ RenderedObject.prototype.findTopmostObjectAtCoordinates = function(coords)
 	}
 	
 	return topmostHit;
+};
+
+RenderedObject.prototype.extraEffects = function(effectsList, transform) {
+	if(effectsList == null)
+		return;
+	
+	for(i in effectsList)
+		effectsList[i](transform);
 };

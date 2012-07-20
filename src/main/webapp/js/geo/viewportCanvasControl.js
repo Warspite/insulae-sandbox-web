@@ -6,13 +6,18 @@ define(["dojo/dom", "dojo/dom-class", "insulae/server", "geo/areaControl"], func
 	var keyboard = new Keyboard(); 
 	var cameraController = new CameraController(keyboard, mouse, renderer);
     
-    var locationGraphics = new ObjectContainer(0);
-    renderer.addChild(locationGraphics);
+    var locationGraphics = null;
+    var tooltipGraphics = null;
 	
     var locationTypes = {};
     
     areaControl.addAreaSelectionListener(function(area) { 
-		locationGraphics.clearChildren();
+		locationGraphics = new ObjectContainer(0);
+	    tooltipGraphics = new OverlayContainer(100);
+
+		renderer.clearChildren();
+	    renderer.addChild(locationGraphics);
+	    renderer.addChild(tooltipGraphics);
     	
 		if( area != null ) {
     		srv.get("geography/Location", { "areaId": area.id }, locationsLoaded);
@@ -31,7 +36,7 @@ define(["dojo/dom", "dojo/dom-class", "insulae/server", "geo/areaControl"], func
     
     function locationsLoaded(result) {
     	for(i in result.content.locations) {
-    		locationGraphics.addChild(new LocationObject(result.content.locations[i], locationTypes));
+    		locationGraphics.addChild(new LocationObject(result.content.locations[i], locationTypes, tooltipGraphics));
     	}
     }
     
