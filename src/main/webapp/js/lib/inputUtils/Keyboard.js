@@ -10,7 +10,7 @@ var Keyboard = function()
 	this.keysDown = new Array();
 	this.keysReleased = new Array();
 	
-	this.elementsWithFocus = {};
+	this.htmlNodesWithFocus = {};
 	
 	this.setupFocusListeners();
 };
@@ -80,8 +80,8 @@ Keyboard.prototype.tick = function(elapsedTime)
 
 Keyboard.prototype.anyInputElementHasFocus = function()
 {
-	for(i in this.elementsWithFocus)
-		if(this.elementsWithFocus[i])
+	for(i in this.htmlNodesWithFocus)
+		if(this.htmlNodesWithFocus[i])
 			return true;
 
 	return false;
@@ -99,8 +99,8 @@ Keyboard.prototype.setupFocusListeners = function()
 	var inputs = document.getElementsByTagName('input');
 	for (i in inputs) {
     	if (inputs[i].type === 'text' || inputs[i].type === 'password') {
-    		inputs[i].onfocus = function() { keyboard.elementsWithFocus[this.id] = true; }
-    		inputs[i].onblur = function() { keyboard.elementsWithFocus[this.id] = false; }
+    		inputs[i].onfocus = function() { keyboard.htmlNodesWithFocus[this.id] = true; }
+    		inputs[i].onblur = function() { keyboard.htmlNodesWithFocus[this.id] = false; }
         }
 	}
 };

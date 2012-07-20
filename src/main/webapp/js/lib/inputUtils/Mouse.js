@@ -1,6 +1,7 @@
-var Mouse = function(canvas)
+var Mouse = function(canvas, renderer)
 {
 	this.canvas = canvas;
+	this.renderer = renderer;
 
 	this.mousePressed = false;
 	this.mouseDown = false;
@@ -8,6 +9,9 @@ var Mouse = function(canvas)
 	this.mouseMoved = false;
 	this.mouseScrolled = false;
 	this.withinBoundsOfAwareWidget = false;
+	
+	this.pointedAtObject = null
+	this.lastPointedAtObject = null;
 
 	this.lastMouseDownX = 0;
 	this.lastMouseDownY = 0;
@@ -122,6 +126,18 @@ Mouse.prototype.tick = function(elapsedTime)
 		else {
 			this.mouseReleased = false;
 		}
+	}
+	
+	this.updatePointedAtObject();
+};
+
+Mouse.prototype.updatePointedAtObject() {
+	this.lastPointedAtObject = this.pointedAtObject;
+	this.pointedAtObject = this.renderer.findTopmostObjectAtCoordinates(this.current);
+	
+	if( this.pointedAtObject != null && this.pointedAtObject != this.lastPointedAtObject ) {
+		this.lastPointedAtObject.pointedAtSince = null;
+		this.pointedAtObject.pointedAtSince = new Date().getTime();
 	}
 };
 

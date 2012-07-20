@@ -1,4 +1,4 @@
-var LocationObject = function(location, locationTypes)
+var TooltippingObject = function(location, locationTypes)
 {
 	this.renderSize = 64;
 	this.data = location;

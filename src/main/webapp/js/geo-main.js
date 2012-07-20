@@ -18,12 +18,15 @@ include("lib/inputUtils/Keyboard.js");
 include("lib/inputUtils/Mouse.js");
 
 include("lib/graphics/ObjectRenderingParameters.js");
+include("lib/graphics/ObjectInteractionParameters.js");
 include("lib/graphics/GraphicsType.js");
 include("lib/graphics/CameraController.js");
 include("lib/graphics/Renderer.js");
+include("lib/graphics/Transform.js");
 include("lib/graphics/RenderedObject.js");
 include("lib/graphics/renderedObjects/ObjectContainer.js");
 include("lib/graphics/renderedObjects/LocationObject.js");
+include("lib/graphics/renderedObjects/TooltippingObject.js");
 
 
 require(["dojo/dom", "geo/viewportCanvasControl", "dojo/domReady!"], function(dom, areaControl) {

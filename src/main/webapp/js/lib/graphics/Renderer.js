@@ -9,12 +9,11 @@ var Renderer = function(canvas, ctx, backgroundFillStyle)
 
 Renderer.prototype.tick = function(tickInterval)
 {
-	this.ctx.setTransform(1.0, 0.0, 0.0, 1.0, 1.0, 1.0);
+	this.ctx.setTransform(1.0, 0.0, 0.0, 1.0, 0.0, 0.0);
 	this.ctx.fillStyle = this.backgroundFillStyle;
 	this.ctx.fillRect(-1, -1, this.canvas.width + 1, this.canvas.height + 1);
-	this.applyViewportTransforms();
 
-	this.render(this.ctx);
+	this.render(this.ctx, this.calculateViewportTransform());
 };
 
 Renderer.prototype.setViewportParameters = function(x, y, scale) {
@@ -23,10 +22,11 @@ Renderer.prototype.setViewportParameters = function(x, y, scale) {
 	this.viewportScale = scale;
 }
 
-Renderer.prototype.applyViewportTransforms = function()
+Renderer.prototype.calculateViewportTransform = function()
 {
-	this.ctx.translate(this.canvas.width * 0.5, this.canvas.height * 0.5 );
-	this.ctx.scale(this.viewportScale, this.viewportScale);
-	this.ctx.translate(-this.viewportX, -this.viewportY);
-
+	var t = new Transform();
+	t.translate(this.canvas.width * 0.5, this.canvas.height * 0.5 );
+	t.scale(this.viewportScale, this.viewportScale);
+	t.translate(-this.viewportX, -this.viewportY);
+	return t;
 };
