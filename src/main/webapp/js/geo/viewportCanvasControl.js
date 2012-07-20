@@ -1,7 +1,7 @@
 define(["dojo/dom", "dojo/dom-class", "insulae/server", "geo/areaControl"], function(dom, domClass, srv, areaControl) {
     var canvas = dom.byId("viewportCanvas");
     var ctx = canvas.getContext("2d");
-    var renderer = new Renderer(canvas, ctx, "#ff0000");
+    var renderer = new Renderer(canvas, ctx, "#000000");
 	var mouse = new Mouse(canvas, renderer);
 	var keyboard = new Keyboard(); 
 	var cameraController = new CameraController(keyboard, mouse, renderer);

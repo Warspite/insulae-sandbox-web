@@ -30,7 +30,7 @@ var TooltipObject = function(tooltipString, tooltipContainer)
 			
 			if(new Date().getTime() > self.displayAfter) {
 				self.displayAfter = null;
-				self.orp.setGraphicsType(GraphicsType.RECT, "#00ff00");
+				self.orp.setGraphicsType(GraphicsType.TEXT, {text: self.tooltipString, fillStyle: "#cceecc" });
 			}
 		}
 	});

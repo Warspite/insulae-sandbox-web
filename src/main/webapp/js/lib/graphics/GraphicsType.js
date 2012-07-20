@@ -3,4 +3,5 @@ var GraphicsType = {
 	IMAGE: {val: 1, name: "Image" },
 	INVIS: {val: 2, name: "Invisible" },
 	ANIM: {val: 3, name: "Animation" },
+	TEXT: {val: 4, name: "Text" },
 }

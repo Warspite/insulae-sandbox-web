@@ -21,5 +21,5 @@ var LocationObject = function(location, locationTypes, tooltipContainer)
 		),
 		this);
 	
-	this.tooltipObject.setText("You're pointing at a " + this.locationTypes[this.data.locationTypeId].name + " tile. " + this.locationTypes[this.data.locationTypeId].description);
+	this.tooltipObject.setText(this.locationTypes[this.data.locationTypeId].name);
 };

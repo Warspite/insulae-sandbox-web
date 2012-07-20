@@ -65,6 +65,12 @@ RenderedObject.prototype.drawSelf = function(ctx)
 		ctx.fillStyle = this.orp.content;
 		ctx.fillRect(boundaries.left, boundaries.top, this.orp.width, this.orp.height);
 	}
+	else if( this.orp.graphicsType == GraphicsType.TEXT ) {
+		ctx.fillStyle = this.orp.content.fillStyle || "#ffffff";
+		ctx.font = this.orp.content.font || "11px Arial";
+		var width = ctx.measureText(this.orp.content.text).width;
+		ctx.fillText(this.orp.content.text, -0.5 * width, 0);
+	}
 };
 
 RenderedObject.prototype.addChild = function(child)
