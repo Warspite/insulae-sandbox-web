@@ -13,9 +13,9 @@ var TooltipObject = function(tooltipString, tooltipContainer)
 				32, 
 				1.0, 
 				GraphicsType.INVIS, 
-				null, 
-				0
-			)
+				null 
+			),
+			0
 		),
 		this);
 	

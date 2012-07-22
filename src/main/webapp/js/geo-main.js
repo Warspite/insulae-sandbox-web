@@ -27,6 +27,7 @@ include("lib/graphics/RenderedObject.js");
 include("lib/graphics/renderedObjects/ObjectContainer.js");
 include("lib/graphics/renderedObjects/OverlayContainer.js");
 include("lib/graphics/renderedObjects/LocationObject.js");
+include("lib/graphics/renderedObjects/BuildingObject.js");
 include("lib/graphics/renderedObjects/TooltippingObject.js");
 include("lib/graphics/renderedObjects/TooltipObject.js");
 

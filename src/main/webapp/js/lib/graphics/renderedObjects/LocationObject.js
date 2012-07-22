@@ -14,9 +14,9 @@ var LocationObject = function(location, locationTypes, tooltipContainer)
 				this.renderSize, 
 				1.0, 
 				GraphicsType.IMAGE, 
-				"images/locations/" + locationTypes[location.locationTypeId].canonicalName + ".png", 
-				0
+				"images/locations/" + locationTypes[location.locationTypeId].canonicalName + ".png" 
 			),
+			0,
 			tooltipContainer
 		),
 		this);

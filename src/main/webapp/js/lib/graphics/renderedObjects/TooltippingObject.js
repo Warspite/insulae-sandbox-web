@@ -1,6 +1,6 @@
-var TooltippingObject = function(orp, tooltipContainer)
+var TooltippingObject = function(orp, zIndex, tooltipContainer)
 {
-	mixin(new RenderedObject(orp, new ObjectInteractionParameters(true)), this);
+	mixin(new RenderedObject(orp, new ObjectInteractionParameters(true), zIndex), this);
 	
 	this.tooltipDelay = 800;
 	

@@ -1,7 +1,8 @@
-var RenderedObject = function(orp, oip)
+var RenderedObject = function(orp, oip, zIndex)
 {
 	this.parent = parent;
 	this.orp = orp;
+	this.zIndex = zIndex;
 	this.children = new SortedList("zIndex");
 	this.lastUsedTransform = new Transform();
 	
@@ -13,17 +14,12 @@ var RenderedObject = function(orp, oip)
 	}
 };
 
-RenderedObject.prototype.zIndex = function() {
-	return parseInt(this.orp.zIndex);
-}
-
 RenderedObject.prototype.render = function(ctx, transform)
 {
 	this.extraEffects(this.preTransformEffects, transform);
 	
 	transform.translate(this.orp.x, this.orp.y);
 	transform.rotate(this.orp.angle);
-	ctx.setTransform(transform.m[0], transform.m[1], transform.m[2], transform.m[3], transform.m[4], transform.m[5]);
 
 	this.extraEffects(this.preRenderEffects, transform);
 	
@@ -31,7 +27,7 @@ RenderedObject.prototype.render = function(ctx, transform)
 	var c = this.children.firstElement;
 	while( c != null ) {
 		if( c.zIndex >= 0 && !selfDrawn ) {
-			this.drawSelf(ctx);
+			this.drawSelf(ctx, transform);
 			selfDrawn = true;
 		}
 
@@ -40,18 +36,19 @@ RenderedObject.prototype.render = function(ctx, transform)
 	}
 
 	if(!selfDrawn)
-		this.drawSelf(ctx);
+		this.drawSelf(ctx, transform);
 	
 	this.lastUsedTransform = transform;
 
 	this.extraEffects(this.postRenderEffects, transform);
 };
 
-RenderedObject.prototype.drawSelf = function(ctx)
+RenderedObject.prototype.drawSelf = function(ctx, transform)
 {
 	if( this.orp.graphicsType == GraphicsType.INVIS )
 		return;
 	
+	ctx.setTransform(transform.m[0], transform.m[1], transform.m[2], transform.m[3], transform.m[4], transform.m[5]);
 	ctx.globalAlpha = this.orp.alpha;
 	var boundaries = this.calculateBoundaries();
 	

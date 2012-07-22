@@ -6,12 +6,17 @@ define(["dojo/dom", "dojo/dom-class", "insulae/server", "geo/areaControl"], func
 	var keyboard = new Keyboard(); 
 	var cameraController = new CameraController(keyboard, mouse, renderer);
     
-    var locationGraphics = null;
+    var displayedArea = null;
+	var locationGraphics = null;
     var tooltipGraphics = null;
 	
+    var locationObjects = {};
+    var buildingObjects = {};
     var locationTypes = {};
+    var buildingTypes = {};
     
     areaControl.addAreaSelectionListener(function(area) { 
+    	displayedArea = area;
 		locationGraphics = new ObjectContainer(0);
 	    tooltipGraphics = new OverlayContainer(100);
 
@@ -19,13 +24,17 @@ define(["dojo/dom", "dojo/dom-class", "insulae/server", "geo/areaControl"], func
 	    renderer.addChild(locationGraphics);
 	    renderer.addChild(tooltipGraphics);
     	
-		if( area != null ) {
-    		srv.get("geography/Location", { "areaId": area.id }, locationsLoaded);
+		if( displayedArea != null ) {
+    		srv.get("geography/Location", { "areaId": displayedArea.id }, locationsLoaded);
     	}
     });
     
     srv.get("geography/LocationType", {}, function(result) {
     	locationTypes = srv.mapify(result.content.locationTypes);
+    });
+
+    srv.get("industry/BuildingType", {}, function(result) {
+    	buildingTypes = srv.mapify(result.content.buildingTypes);
     });
     
     var ticker = new Ticker(25);
@@ -35,8 +44,22 @@ define(["dojo/dom", "dojo/dom-class", "insulae/server", "geo/areaControl"], func
     ticker.addListener(mouse);
     
     function locationsLoaded(result) {
+    	locationObjects = {};
     	for(i in result.content.locations) {
-    		locationGraphics.addChild(new LocationObject(result.content.locations[i], locationTypes, tooltipGraphics));
+    		var l = result.content.locations[i];
+    		locationObjects[l.id] = new LocationObject(l, locationTypes, tooltipGraphics); 
+    		locationGraphics.addChild(locationObjects[l.id]);
+    	}
+    	
+    	srv.get("industry/Building", { areaId: displayedArea.id }, buildingsLoaded);
+    }
+    
+    function buildingsLoaded(result) {
+    	buildingObjects = {};
+    	for(i in result.content.buildings) {
+    		var b = result.content.buildings[i];
+    		buildingObjects[b.id] = new BuildingObject(b, buildingTypes, tooltipGraphics);
+    		locationObjects[b.locationId].addChild(buildingObjects[b.id]);
     	}
     }
     

@@ -1,4 +1,4 @@
-var ObjectRenderingParameters = function(x, y, angle, width, height, alpha, graphicsType, content, zIndex)
+var ObjectRenderingParameters = function(x, y, angle, width, height, alpha, graphicsType, content)
 {
 	this.x = x;
 	this.y = y;
@@ -6,7 +6,6 @@ var ObjectRenderingParameters = function(x, y, angle, width, height, alpha, grap
 	this.width = width;
 	this.height = height;
 	this.alpha = alpha;
-	this.zIndex = 0;
 	this.setGraphicsType(graphicsType, content);
 };
 
