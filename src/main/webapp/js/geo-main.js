@@ -20,6 +20,7 @@ include("lib/inputUtils/Mouse.js");
 include("lib/graphics/ObjectRenderingParameters.js");
 include("lib/graphics/ObjectInteractionParameters.js");
 include("lib/graphics/GraphicsType.js");
+include("lib/graphics/Anchor.js");
 include("lib/graphics/CameraController.js");
 include("lib/graphics/Renderer.js");
 include("lib/graphics/Transform.js");

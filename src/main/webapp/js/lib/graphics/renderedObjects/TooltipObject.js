@@ -1,6 +1,6 @@
 var TooltipObject = function(ctx, tooltipString, tooltipContainer)
 {
-	mixin(new WindowObject(0, 0, 200, 48), this); 
+	mixin(new WindowObject(0, 0, 0, 0), this); 
 	
 	this.rendered = false;
 	tooltipContainer.addChild(this);
@@ -31,7 +31,7 @@ TooltipObject.prototype.showIn = function(ms, mouseCoords) {
 
 TooltipObject.prototype.setText = function(text) {
 	this.textObject.setText(text);
-	this.setSize({width: this.textObject.dimensions.width + 4, height: this.textObject.dimensions.height + 4});
+	this.setSize({width: this.textObject.dimensions.width + 10, height: this.textObject.dimensions.height + 10});
 };
 
 TooltipObject.prototype.hide = function() {

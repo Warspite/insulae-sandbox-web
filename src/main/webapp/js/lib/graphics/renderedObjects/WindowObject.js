@@ -44,7 +44,7 @@ WindowObject.prototype.setDefaultBackgroundObject = function()
 				this.orp.height,
 				0.7, 
 				GraphicsType.RECT, 
-				"000000"
+				"202020"
 			),
 		-1
 		)
@@ -58,4 +58,6 @@ WindowObject.prototype.setSize = function(newSize)
 	
 	this.backgroundObject.orp.width = newSize.width;
 	this.backgroundObject.orp.height = newSize.height;
+	this.orp.width = newSize.width;
+	this.orp.height = newSize.height;
 };

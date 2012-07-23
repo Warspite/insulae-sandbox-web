@@ -7,6 +7,9 @@ var ObjectRenderingParameters = function(x, y, angle, width, height, alpha, grap
 	this.height = height;
 	this.alpha = alpha;
 	this.setGraphicsType(graphicsType, content);
+	
+	this.horizontalAnchor = Anchor.CENTER;
+	this.verticalAnchor = Anchor.CENTER;
 };
 
 ObjectRenderingParameters.prototype.setGraphicsType = function(graphicsType, content) {

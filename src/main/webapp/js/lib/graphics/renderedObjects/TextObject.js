@@ -14,6 +14,8 @@ var TextObject = function(ctx, x, y, text, font, fillStyle, lineHeight, maxWidth
 		null,
 		0), this); 
 	
+	this.orp.verticalAnchor = Anchor.TOP;
+	this.orp.horizontalAnchor = Anchor.LEFT;
 	this.ctx = ctx;
 	this.lineHeight = lineHeight;
 	this.maxWidth = maxWidth;
@@ -26,7 +28,7 @@ var TextObject = function(ctx, x, y, text, font, fillStyle, lineHeight, maxWidth
 		
 		for(i in self.orp.content.text) {
 			ctx.setTransform(transform.m[0], transform.m[1], transform.m[2], transform.m[3], transform.m[4], transform.m[5]);
-			ctx.fillText(self.orp.content.text[i], - self.dimensions.width * 0.5, self.dimensions.height * 0.5 - 2);
+			ctx.fillText(self.orp.content.text[i], 5, this.lineHeight);
 			transform.translate(0, self.lineHeight)
 		}
 	};
@@ -36,13 +38,6 @@ TextObject.prototype.setText = function(text, font, fillStyle) {
 	this.orp.content.text = new Array(0);
 	
 	var explicitTextLines = text.split('\n');
-	
-	for(i in explicitTextLines)
-		console.log("Explicit text line: " + explicitTextLines[i]);
-	
-//	for(i in explicitTextLines) {
-//		this.orp.content.text.push(explicitTextLines[i]);
-//	}
 	
 	for(i in explicitTextLines) {
 		if( this.maxWidth == null )

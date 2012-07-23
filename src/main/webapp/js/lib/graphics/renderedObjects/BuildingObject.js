@@ -7,8 +7,8 @@ var BuildingObject = function(ctx, building, buildingTypes, tooltipContainer)
 	mixin(
 		new TooltippingObject(
 			new ObjectRenderingParameters(
-				16,
-				16,
+				-this.renderSize,
+				-this.renderSize,
 				0.0,
 				this.renderSize, 
 				this.renderSize, 
@@ -22,5 +22,7 @@ var BuildingObject = function(ctx, building, buildingTypes, tooltipContainer)
 		),
 		this);
 	
+	this.orp.verticalAnchor = Anchor.BOTTOM;
+	this.orp.horizontalAnchor = Anchor.RIGHT;
 	this.tooltipObject.setText(this.buildingTypes[this.data.buildingTypeId].name + "\n" + this.buildingTypes[this.data.buildingTypeId].description);
 };
