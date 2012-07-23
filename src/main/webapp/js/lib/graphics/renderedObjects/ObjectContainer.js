@@ -9,7 +9,7 @@ var ObjectContainer = function(zIndex)
 				0,
 				0,
 				1.0, 
-				GraphicsType.INVIS, 
+				GraphicsType.NONE, 
 				"#000000"), 
 			zIndex),
 		this);

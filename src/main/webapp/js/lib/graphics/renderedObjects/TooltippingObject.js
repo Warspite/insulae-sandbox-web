@@ -1,4 +1,4 @@
-var TooltippingObject = function(orp, zIndex, tooltipContainer)
+var TooltippingObject = function(orp, zIndex, tooltipContainer, ctx)
 {
 	mixin(new RenderedObject(orp, new ObjectInteractionParameters(true), zIndex), this);
 	
@@ -7,7 +7,7 @@ var TooltippingObject = function(orp, zIndex, tooltipContainer)
 	if(this.preRenderEffects == null)
 		this.preRenderEffects = new Array(0);
 
-	this.tooltipObject = new TooltipObject("Undefined", tooltipContainer);
+	this.tooltipObject = new TooltipObject(ctx, "Undefined", tooltipContainer);
 };
 
 TooltippingObject.prototype.mouseEnter = function(mouseCoords) {

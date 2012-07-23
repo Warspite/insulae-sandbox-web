@@ -5,6 +5,7 @@ var RenderedObject = function(orp, oip, zIndex)
 	this.zIndex = zIndex;
 	this.children = new SortedList("zIndex");
 	this.lastUsedTransform = new Transform();
+	this.rendered = true;
 	
 	if( oip != null ) {
 		this.oip = oip;
@@ -14,8 +15,26 @@ var RenderedObject = function(orp, oip, zIndex)
 	}
 };
 
+RenderedObject.prototype.tick = function(tickInterval)
+{
+	var c = this.children.firstElement;
+	while( c != null ) {
+		c.tick(tickInterval);
+		c = c.nextElement;
+	}
+
+	this.tickSelf(tickInterval);
+};
+
+RenderedObject.prototype.tickSelf = function(tickInterval)
+{
+};
+
 RenderedObject.prototype.render = function(ctx, transform)
 {
+	if(!this.rendered)
+		return;
+	
 	this.extraEffects(this.preTransformEffects, transform);
 	
 	transform.translate(this.orp.x, this.orp.y);
@@ -45,7 +64,7 @@ RenderedObject.prototype.render = function(ctx, transform)
 
 RenderedObject.prototype.drawSelf = function(ctx, transform)
 {
-	if( this.orp.graphicsType == GraphicsType.INVIS )
+	if( this.orp.graphicsType == GraphicsType.NONE )
 		return;
 	
 	ctx.setTransform(transform.m[0], transform.m[1], transform.m[2], transform.m[3], transform.m[4], transform.m[5]);
@@ -61,12 +80,6 @@ RenderedObject.prototype.drawSelf = function(ctx, transform)
 	else if( this.orp.graphicsType == GraphicsType.RECT ) {
 		ctx.fillStyle = this.orp.content;
 		ctx.fillRect(boundaries.left, boundaries.top, this.orp.width, this.orp.height);
-	}
-	else if( this.orp.graphicsType == GraphicsType.TEXT ) {
-		ctx.fillStyle = this.orp.content.fillStyle || "#ffffff";
-		ctx.font = this.orp.content.font || "11px Arial";
-		var width = ctx.measureText(this.orp.content.text).width;
-		ctx.fillText(this.orp.content.text, -0.5 * width, 0);
 	}
 };
 

@@ -1,7 +1,6 @@
 var GraphicsType = {
 	RECT: {val: 0, name: "Rectangle" },
 	IMAGE: {val: 1, name: "Image" },
-	INVIS: {val: 2, name: "Invisible" },
+	NONE: {val: 2, name: "No graphic representation" },
 	ANIM: {val: 3, name: "Animation" },
-	TEXT: {val: 4, name: "Text" },
 }

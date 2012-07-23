@@ -1,4 +1,4 @@
-var LocationObject = function(location, locationTypes, tooltipContainer)
+var LocationObject = function(ctx, location, locationTypes, tooltipContainer)
 {
 	this.renderSize = 64;
 	this.data = location;
@@ -17,7 +17,8 @@ var LocationObject = function(location, locationTypes, tooltipContainer)
 				"images/locations/" + locationTypes[location.locationTypeId].canonicalName + ".png" 
 			),
 			0,
-			tooltipContainer
+			tooltipContainer,
+			ctx
 		),
 		this);
 	

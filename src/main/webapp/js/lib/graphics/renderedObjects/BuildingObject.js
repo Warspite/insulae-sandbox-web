@@ -1,4 +1,4 @@
-var BuildingObject = function(building, buildingTypes, tooltipContainer)
+var BuildingObject = function(ctx, building, buildingTypes, tooltipContainer)
 {
 	this.renderSize = 32;
 	this.data = building;
@@ -17,7 +17,8 @@ var BuildingObject = function(building, buildingTypes, tooltipContainer)
 				"images/buildings/" + buildingTypes[building.buildingTypeId].canonicalName + ".png" 
 			),
 			1,
-			tooltipContainer
+			tooltipContainer,
+			ctx
 		),
 		this);
 	

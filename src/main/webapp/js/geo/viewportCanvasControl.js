@@ -47,7 +47,7 @@ define(["dojo/dom", "dojo/dom-class", "insulae/server", "geo/areaControl"], func
     	locationObjects = {};
     	for(i in result.content.locations) {
     		var l = result.content.locations[i];
-    		locationObjects[l.id] = new LocationObject(l, locationTypes, tooltipGraphics); 
+    		locationObjects[l.id] = new LocationObject(ctx, l, locationTypes, tooltipGraphics); 
     		locationGraphics.addChild(locationObjects[l.id]);
     	}
     	
@@ -58,7 +58,7 @@ define(["dojo/dom", "dojo/dom-class", "insulae/server", "geo/areaControl"], func
     	buildingObjects = {};
     	for(i in result.content.buildings) {
     		var b = result.content.buildings[i];
-    		buildingObjects[b.id] = new BuildingObject(b, buildingTypes, tooltipGraphics);
+    		buildingObjects[b.id] = new BuildingObject(ctx, b, buildingTypes, tooltipGraphics);
     		locationObjects[b.locationId].addChild(buildingObjects[b.id]);
     	}
     }
