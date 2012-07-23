@@ -22,5 +22,5 @@ var BuildingObject = function(ctx, building, buildingTypes, tooltipContainer)
 		),
 		this);
 	
-	this.tooltipObject.setText(this.buildingTypes[this.data.buildingTypeId].name);
+	this.tooltipObject.setText(this.buildingTypes[this.data.buildingTypeId].name + "\n" + this.buildingTypes[this.data.buildingTypeId].description);
 };

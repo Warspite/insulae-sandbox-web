@@ -20,7 +20,7 @@ var TooltipObject = function(ctx, tooltipString, tooltipContainer)
 		}
 	};
 	
-	this.textObject = new TextObject(ctx, 0, 0, tooltipString, "11px Arial", "#00ffff", 12); 
+	this.textObject = new TextObject(ctx, 0, 0, tooltipString, "11px Arial", "#00ffff", 14, 160); 
 	this.addChild(this.textObject);
 };
 

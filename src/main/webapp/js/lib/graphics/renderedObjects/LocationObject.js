@@ -22,5 +22,5 @@ var LocationObject = function(ctx, location, locationTypes, tooltipContainer)
 		),
 		this);
 	
-	this.tooltipObject.setText(this.locationTypes[this.data.locationTypeId].name);
+	this.tooltipObject.setText(this.locationTypes[this.data.locationTypeId].name + "\n" + this.locationTypes[this.data.locationTypeId].description);
 };
