@@ -142,6 +142,15 @@ Mouse.prototype.updatePointedAtObject = function() {
 		if(this.pointedAtObject != null && this.pointedAtObject.mouseEnter != null)
 			this.pointedAtObject.mouseEnter(this.current);
 	}
+	
+
+	if(this.pointedAtObject != null) {
+		if(this.mousePressed && this.pointedAtObject.mousePressed != null)
+			this.pointedAtObject.mousePressed(this.current);
+		
+		if(this.pointedAtObject.mouseCursor != null)
+			document.body.style.cursor = this.pointedAtObject.mouseCursor;
+	} 
 };
 
 Mouse.prototype.isWithinBounds = function(bounds)

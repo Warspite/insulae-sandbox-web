@@ -61,3 +61,17 @@ WindowObject.prototype.setSize = function(newSize)
 	this.orp.width = newSize.width;
 	this.orp.height = newSize.height;
 };
+
+WindowObject.prototype.addCloseButton = function()
+{
+	var self = this;
+	var btn = new Button(0, 0, 16, 16, "images/close.png", function() {
+		self.parent.removeChild(self);
+	});
+	
+	btn.orp.verticalAnchor = Anchor.TOP;
+	btn.orp.horizontalAnchor = Anchor.RIGHT;
+	btn.orp.verticalOrigin = Origin.TOP;
+	btn.orp.horizontalOrigin = Origin.RIGHT;
+	this.addChild(btn);
+};

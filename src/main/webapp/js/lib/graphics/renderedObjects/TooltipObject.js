@@ -19,7 +19,8 @@ var TooltipObject = function(ctx, tooltipString, tooltipContainer)
 			self.rendered = true;
 		}
 	};
-	
+	this.orp.verticalAnchor = Anchor.TOP;
+	this.orp.horizontalAnchor = Anchor.LEFT;
 	this.textObject = new TextObject(ctx, 0, 0, tooltipString, "11px Arial", "#00ffff", 14, 160); 
 	this.addChild(this.textObject);
 };

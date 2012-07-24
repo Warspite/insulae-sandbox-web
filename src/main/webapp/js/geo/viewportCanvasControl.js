@@ -6,23 +6,23 @@ define(["dojo/dom", "dojo/dom-class", "insulae/server", "geo/areaControl"], func
 	var keyboard = new Keyboard(); 
 	var cameraController = new CameraController(keyboard, mouse, renderer);
     
-    var displayedArea = null;
-	var locationGraphics = null;
-    var tooltipGraphics = null;
+    var graphicLayers = {location: null, gui: null, tooltip: null};
+    var typeData = {location: {}, building: {}, item: {}}
+	var displayedArea = null;
 	
     var locationObjects = {};
     var buildingObjects = {};
-    var locationTypes = {};
-    var buildingTypes = {};
     
     areaControl.addAreaSelectionListener(function(area) { 
     	displayedArea = area;
-		locationGraphics = new ObjectContainer(0);
-	    tooltipGraphics = new OverlayContainer(100);
+    	graphicLayers.location = new ObjectContainer(0);
+    	graphicLayers.gui = new OverlayContainer(50, canvas);
+    	graphicLayers.tooltip = new OverlayContainer(100, canvas);
 
 		renderer.clearChildren();
-	    renderer.addChild(locationGraphics);
-	    renderer.addChild(tooltipGraphics);
+	    renderer.addChild(graphicLayers.location);
+	    renderer.addChild(graphicLayers.gui);
+	    renderer.addChild(graphicLayers.tooltip);
     	
 		if( displayedArea != null ) {
     		srv.get("geography/Location", { "areaId": displayedArea.id }, locationsLoaded);
@@ -30,11 +30,15 @@ define(["dojo/dom", "dojo/dom-class", "insulae/server", "geo/areaControl"], func
     });
     
     srv.get("geography/LocationType", {}, function(result) {
-    	locationTypes = srv.mapify(result.content.locationTypes);
+    	typeData.location = srv.mapify(result.content.locationTypes);
     });
 
     srv.get("industry/BuildingType", {}, function(result) {
-    	buildingTypes = srv.mapify(result.content.buildingTypes);
+    	typeData.building = srv.mapify(result.content.buildingTypes);
+    });
+    
+    srv.get("industry/ItemType", {}, function(result) {
+    	typeData.item = srv.mapify(result.content.itemTypes);
     });
     
     var ticker = new Ticker(25);
@@ -47,8 +51,8 @@ define(["dojo/dom", "dojo/dom-class", "insulae/server", "geo/areaControl"], func
     	locationObjects = {};
     	for(i in result.content.locations) {
     		var l = result.content.locations[i];
-    		locationObjects[l.id] = new LocationObject(ctx, l, locationTypes, tooltipGraphics); 
-    		locationGraphics.addChild(locationObjects[l.id]);
+    		locationObjects[l.id] = new LocationObject(ctx, l, typeData.location, graphicLayers.tooltip); 
+    		graphicLayers.location.addChild(locationObjects[l.id]);
     	}
     	
     	srv.get("industry/Building", { areaId: displayedArea.id }, buildingsLoaded);
@@ -58,7 +62,7 @@ define(["dojo/dom", "dojo/dom-class", "insulae/server", "geo/areaControl"], func
     	buildingObjects = {};
     	for(i in result.content.buildings) {
     		var b = result.content.buildings[i];
-    		buildingObjects[b.id] = new BuildingObject(ctx, b, buildingTypes, tooltipGraphics);
+    		buildingObjects[b.id] = new BuildingObject(ctx, b, srv, graphicLayers, typeData);
     		locationObjects[b.locationId].addChild(buildingObjects[b.id]);
     	}
     }

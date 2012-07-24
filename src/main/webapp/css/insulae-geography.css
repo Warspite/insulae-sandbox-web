@@ -17,7 +17,7 @@ input { margin:0; padding:0; font: 1.4em/1.9em arial, sans-serif, tahoma, "Trebu
 #wrapper { min-height:100%; height:auto !important; height:100%; margin:0 auto -390px; }
 .contentContainer { width:940px; margin:0 auto; }
 
-#header_inner { background: url(../images/innerHeaderBackground.png) no-repeat 50% 0; height:387px; overflow:hidden; }
+#header_inner { background: url(../images/innerHeaderBackground.png) no-repeat 50% 0; height:550px; overflow:hidden; }
 #menu { background: url(../images/selectionBarBackground.png) no-repeat 0 0; width:940px; height:37px; line-height:34px; margin:30px auto 0 auto; position:relative; }
 #menu #logo { display:block; float:left; width:139px; height:37px; text-indent:-999em; margin-right:15px; }
 #menu #accountLink { display:block; float:right; width:90px; text-indent:-999em; }

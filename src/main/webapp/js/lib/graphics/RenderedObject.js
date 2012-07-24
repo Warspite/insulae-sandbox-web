@@ -1,6 +1,6 @@
 var RenderedObject = function(orp, oip, zIndex)
 {
-	this.parent = parent;
+	this.parent = null;
 	this.orp = orp;
 	this.zIndex = zIndex;
 	this.children = new SortedList("zIndex");
@@ -43,33 +43,33 @@ RenderedObject.prototype.render = function(ctx, transform)
 	this.extraEffects(this.preRenderEffects, transform);
 	
 	var selfDrawn = false;
+	var myBoundaries = this.calculateBoundaries();
 	var c = this.children.firstElement;
 	while( c != null ) {
 		if( c.zIndex >= 0 && !selfDrawn ) {
-			this.drawSelf(ctx, transform);
+			this.drawSelf(ctx, transform, myBoundaries);
 			selfDrawn = true;
 		}
 
-		c.render(ctx, this.createStartingTransformOfChild(c, transform));
+		c.render(ctx, this.createStartingTransformOfChild(c, transform, myBoundaries));
 		c = c.nextElement;
 	}
 
 	if(!selfDrawn)
-		this.drawSelf(ctx, transform);
+		this.drawSelf(ctx, transform, myBoundaries);
 	
 	this.lastUsedTransform = transform;
 
 	this.extraEffects(this.postRenderEffects, transform);
 };
 
-RenderedObject.prototype.drawSelf = function(ctx, transform)
+RenderedObject.prototype.drawSelf = function(ctx, transform, boundaries)
 {
 	if( this.orp.graphicsType == GraphicsType.NONE )
 		return;
 	
 	ctx.setTransform(transform.m[0], transform.m[1], transform.m[2], transform.m[3], transform.m[4], transform.m[5]);
 	ctx.globalAlpha = this.orp.alpha;
-	var boundaries = this.calculateBoundaries();
 	
 	if( this.orp.graphicsType == GraphicsType.IMAGE ) {
 		ctx.drawImage(this.orp.content, boundaries.left, boundaries.top, this.orp.width, this.orp.height);
@@ -108,12 +108,41 @@ RenderedObject.prototype.clearChildren = function()
 
 RenderedObject.prototype.calculateBoundaries = function()
 {
-	return {
-		top: -0.5 * this.orp.height,
-		left: -0.5 * this.orp.width,
-		right: 0.5 * this.orp.width,
-		bottom: 0.5 * this.orp.height
-	};
+	var bounds = {top: 0, left: 0, right: 0, bottom: 0};
+	
+	if(this.orp.horizontalOrigin == Origin.LEFT) {
+		bounds.left = 0;
+		bounds.right = this.orp.width;
+		bounds.centerX = 0.5 * this.orp.width;
+	}
+	else if(this.orp.horizontalOrigin == Origin.RIGHT) {
+		bounds.left = - this.orp.width;
+		bounds.right = 0;
+		bounds.centerX = - 0.5 * this.orp.width;
+	}
+	else {
+		bounds.left = -0.5 * this.orp.width;
+		bounds.right = 0.5 * this.orp.width;
+		bounds.centerX = 0;
+	}
+	
+	if(this.orp.verticalOrigin == Origin.TOP) {
+		bounds.top = 0
+		bounds.bottom = this.orp.height
+		bounds.centerY = 0.5 * this.orp.height;
+	}
+	else if(this.orp.verticalOrigin == Origin.BOTTOM) {
+		bounds.top = - this.orp.height
+		bounds.bottom = 0
+		bounds.centerY = - 0.5 * this.orp.height ;
+	}
+	else {
+		bounds.top = - 0.5 * this.orp.height
+		bounds.bottom = 0.5 * this.orp.height
+		bounds.centerY = 0;
+	}
+	
+	return bounds;
 };
 
 RenderedObject.prototype.pointIsWithinBoundaries = function(point)
@@ -152,18 +181,18 @@ RenderedObject.prototype.extraEffects = function(effectsList, transform) {
 		effectsList[i](transform);
 };
 
-RenderedObject.prototype.createStartingTransformOfChild = function(child, originalTransform) {
+RenderedObject.prototype.createStartingTransformOfChild = function(child, originalTransform, myBoundaries) {
 	var childTransform = originalTransform.clone();
-	var trans = {x: 0, y: 0};
+	var trans = {x: myBoundaries.centerX, y: myBoundaries.centerY};
 	if(child.orp.horizontalAnchor == Anchor.LEFT)
-		trans.x = - 0.5 * this.orp.width;
+		trans.x += - 0.5 * this.orp.width;
 	else if(child.orp.horizontalAnchor == Anchor.RIGHT)
-		trans.x = 0.5 * this.orp.width;
+		trans.x += 0.5 * this.orp.width;
 
 	if(child.orp.verticalAnchor == Anchor.TOP)
-		trans.y = - 0.5 * this.orp.height;
+		trans.y += - 0.5 * this.orp.height;
 	else if(child.orp.verticalAnchor == Anchor.BOTTOM)
-		trans.y = 0.5 * this.orp.height;
+		trans.y += 0.5 * this.orp.height;
 		
 	childTransform.translate(trans.x, trans.y);
 	

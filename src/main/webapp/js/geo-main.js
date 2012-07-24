@@ -21,6 +21,7 @@ include("lib/graphics/ObjectRenderingParameters.js");
 include("lib/graphics/ObjectInteractionParameters.js");
 include("lib/graphics/GraphicsType.js");
 include("lib/graphics/Anchor.js");
+include("lib/graphics/Origin.js");
 include("lib/graphics/CameraController.js");
 include("lib/graphics/Renderer.js");
 include("lib/graphics/Transform.js");
@@ -34,7 +35,12 @@ include("lib/graphics/renderedObjects/BuildingObject.js");
 include("lib/graphics/renderedObjects/TooltippingObject.js");
 include("lib/graphics/renderedObjects/TooltipObject.js");
 include("lib/graphics/renderedObjects/TextObject.js");
+include("lib/graphics/renderedObjects/IconLabel.js");
+include("lib/graphics/renderedObjects/ItemStorageIconLabel.js");
 
+include("lib/graphics/widgets/Button.js");
+
+include("lib/graphics/windows/ItemStorageWindow.js");
 
 require(["dojo/dom", "geo/viewportCanvasControl", "dojo/domReady!"], function(dom, areaControl) {
 });
