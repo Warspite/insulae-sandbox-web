@@ -26,7 +26,7 @@ var BuildingObject = function(ctx, building, srv, graphicLayers, typeData)
 	this.orp.horizontalAnchor = Anchor.RIGHT;
 	this.tooltipObject.setText(this.buildingType.name + "\n" + this.buildingType.description);
 	
-	if(this.buildingType.industrialHubRange != 0) {
+	if(this.buildingType.industryHubRange != 0) {
 		var self = this;
 		this.mouseCursor = "pointer";
 		this.mousePressed = function(coords) {
